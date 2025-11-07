@@ -5,6 +5,7 @@ import { Profile } from "../components/Profile";
 import { SignInWithBaseButton } from "@base-org/account-ui/react";
 import { createPublicClient, createWalletClient, custom, formatEther, http } from "viem";
 import { baseSepolia } from "viem/chains";
+import { sdk } from '@farcaster/miniapp-sdk';
 
 const publicClient = createPublicClient({
   chain: baseSepolia,
@@ -12,6 +13,11 @@ const publicClient = createPublicClient({
 });
 
 export default function Page() {
+
+  useEffect(() => {
+        sdk.actions.ready();
+    }, []);
+
   const [universalAddress, setUniversalAddress] = useState<`0x${string}` | null>(null);
   const [subAddress, setSubAddress] = useState<`0x${string}` | null>(null);
 
@@ -78,69 +84,9 @@ export default function Page() {
   };
 
   // saldo da Sub Account
-  useEffect(() => {
-    if (!subAddress) return;
-    let stop = false;
-    let timer: ReturnType<typeof setInterval> | null = null;
-
-    const fetchBalance = async () => {
-      try {
-        setBalLoading(true);
-        const bal = await publicClient.getBalance({ address: subAddress });
-        if (!stop) setSubBalance(bal);
-      } catch {
-        // opcional: console.error('Erro saldo subaccount:', e);
-      } finally {
-        if (!stop) setBalLoading(false);
-      }
-    };
-
-    fetchBalance();
-    timer = setInterval(fetchBalance, 15_000);
-    return () => {
-      stop = true;
-      if (timer) clearInterval(timer);
-    };
-  }, [subAddress]);
 
   return (
-    <main style={{ padding: 24, maxWidth: 760 }}>
-      <h1>Login + Sub Accounts (Base Sepolia)</h1>
-
-      <div
-        aria-busy={loading}
-        style={{
-          display: "inline-block",
-          opacity: loading ? 0.6 : 1,
-          pointerEvents: loading ? "none" : "auto",
-        }}
-      >
-        <SignInWithBaseButton colorScheme="light" onClick={connectAndEnsureSubAccount} />
-      </div>
-
-      {universalAddress && (
-        <section style={{ marginTop: 16 }}>
-          <p>
-            Universal Account: <code>{universalAddress}</code>
-          </p>
-        </section>
-      )}
-
-      {subAddress && (
-        <section style={{ marginTop: 8 }}>
-          <p>
-            Sub Account: <code>{subAddress}</code>
-          </p>
-          <p>
-            Saldo da Sub (ETH, Base Sepolia):{" "}
-            {balLoading && subBalance === null
-              ? "carregando..."
-              : subBalance !== null
-                ? `${Number(formatEther(subBalance)).toFixed(6)} ETH`
-                : "—"}
-          </p>
-        </section>
-      )}
+    <main style={{ padding: 24}}>
       <Profile />
       {err && <p style={{ marginTop: 16, color: "crimson" }}>{err}</p>}
     </main>
