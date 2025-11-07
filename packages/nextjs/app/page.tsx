@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { Profile } from "../components/Profile";
 import { SignInWithBaseButton } from "@base-org/account-ui/react";
 import { createPublicClient, createWalletClient, custom, formatEther, http } from "viem";
 import { baseSepolia } from "viem/chains";
@@ -140,7 +141,7 @@ export default function Page() {
           </p>
         </section>
       )}
-
+      <Profile />
       {err && <p style={{ marginTop: 16, color: "crimson" }}>{err}</p>}
     </main>
   );

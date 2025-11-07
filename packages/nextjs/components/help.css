@@ -1,0 +1,7 @@
+@import "tailwindcss";
+
+@theme{
+  --color-padrao: #8115A7;   
+  --color-padrao-dark: #811092;   
+
+}
