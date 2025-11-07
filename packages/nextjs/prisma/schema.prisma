@@ -1,0 +1,83 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model User {
+  id                 String   @id @default(cuid())
+  createdAt          DateTime @default(now())
+  // Base Account
+  baseAccountAddress String   @unique
+  // Sub Account
+  subAccountAddress  String?  @unique
+  youtubeId          String?  @unique
+
+
+  // FK
+  permissions        SpendPermission[]
+
+  @@index([baseAccountAddress])
+  @@index([subAccountAddress])
+}
+
+model SpendPermission {
+  // Hash único da permissão (retornado pelo requestSpendPermission)
+  permissionHash   String   @id
+  createdAt        DateTime @default(now())
+  revokedAt        DateTime?
+
+  // relacionamento
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId           String
+
+  // Quem é o owner da permissão (normalmente subAccount do usuário)
+  ownerAccount     String
+  // Spender fixo da sua app (o teu CDP server wallet)
+  spender          String
+  // "native" (ETH) ou endereço ERC-20
+  token            String
+
+  // Valores grandes em wei: use Decimal para evitar overflow
+  allowance        Decimal  @db.Decimal(78,0)
+  periodSeconds    Int
+  startTs          BigInt   // unix seconds
+  endTs            BigInt   // 0 = sem expiração
+  salt             String
+  extraData        Bytes?
+
+  signature        Bytes
+  chainId          Int      // 84532 (Base Sepolia)
+
+  // índices úteis
+  @@index([userId])
+  @@index([ownerAccount])
+  @@index([spender])
+  @@index([token])
+  @@index([chainId])
+}
+
+model ServerWallet {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+
+  // Ex: "prod", "staging", "dev", "ai_spender"
+  label     String
+  address   String   @unique
+
+  chainId   Int      // 84532
+  active    Boolean  @default(true)
+
+  @@index([label])
+  @@index([chainId])
+}
