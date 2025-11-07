@@ -4645,15 +4645,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@szmarczak/http-timer@npm:^5.0.1":
-  version: 5.0.1
-  resolution: "@szmarczak/http-timer@npm:5.0.1"
-  dependencies:
-    defer-to-connect: ^2.0.1
-  checksum: fc9cb993e808806692e4a3337c90ece0ec00c89f4b67e3652a356b89730da98bc824273a6d67ca84d5f33cd85f317dcd5ce39d8cc0a2f060145a608a7cb8ce92
-  languageName: node
-  linkType: hard
-
 "@tailwindcss/node@npm:4.0.15":
   version: 4.0.15
   resolution: "@tailwindcss/node@npm:4.0.15"
@@ -8540,13 +8531,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"defer-to-connect@npm:^2.0.1":
-  version: 2.0.1
-  resolution: "defer-to-connect@npm:2.0.1"
-  checksum: 8a9b50d2f25446c0bfefb55a48e90afd58f85b21bcf78e9207cd7b804354f6409032a1705c2491686e202e64fc05f147aa5aa45f9aa82627563f045937f5791b
-  languageName: node
-  linkType: hard
-
 "define-data-property@npm:^1.0.1, define-data-property@npm:^1.1.4":
   version: 1.1.4
   resolution: "define-data-property@npm:1.1.4"
@@ -10948,11 +10932,10 @@ __metadata:
   linkType: hard
 
 "got@npm:^14.4.5":
-  version: 14.6.2
-  resolution: "got@npm:14.6.2"
+  version: 14.6.3
+  resolution: "got@npm:14.6.3"
   dependencies:
     "@sindresorhus/is": ^7.0.1
-    "@szmarczak/http-timer": ^5.0.1
     byte-counter: ^0.1.0
     cacheable-lookup: ^7.0.0
     cacheable-request: ^13.0.12
@@ -10964,7 +10947,7 @@ __metadata:
     p-cancelable: ^4.0.1
     responselike: ^4.0.2
     type-fest: ^4.26.1
-  checksum: fc61f97da68aa402f96293749400e8cb02765ea2faec1dc51d0af86095bc6d7966c4b02dbbb8b421e7cccd6c3fa456ffa6991941302684d13c639835732bda4e
+  checksum: 67d4734d95728a0968de3f63a4d82d6c41e8f6224a481b12741a12b96c9cc161d15fe1da7928fdfd4429dca9e48a2d7ca383cbb48b6023072e50660d2e77f09b
   languageName: node
   linkType: hard
 
