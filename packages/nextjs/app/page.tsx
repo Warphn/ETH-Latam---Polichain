@@ -5,68 +5,90 @@ import { SignInWithBaseButton } from "@base-org/account-ui/react";
 import { createPublicClient, createWalletClient, custom, formatEther, http } from "viem";
 import { baseSepolia } from "viem/chains";
 
-// Todas as leituras onchain via proxy (evita CORS e esconde a API key)
 const publicClient = createPublicClient({
   chain: baseSepolia,
-  transport: http("/api/rpc"),
+  transport: http("/api/rpc"), // proxy -> Alchemy
 });
 
 export default function Page() {
-  const [address, setAddress] = useState<`0x${string}` | null>(null);
+  const [universalAddress, setUniversalAddress] = useState<`0x${string}` | null>(null);
+  const [subAddress, setSubAddress] = useState<`0x${string}` | null>(null);
+
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState<string | null>(null);
 
-  const [balance, setBalance] = useState<bigint | null>(null);
+  const [subBalance, setSubBalance] = useState<bigint | null>(null);
   const [balLoading, setBalLoading] = useState(false);
 
-  const signInWithBase = async () => {
+  const connectAndEnsureSubAccount = async () => {
     if (loading) return;
     setLoading(true);
     setErr(null);
     try {
-      // Importa o SDK apenas no client e apenas quando necessário
+      // 1) SDK só no client
       const { createBaseAccountSDK } = await import("@base-org/account");
       const sdk = createBaseAccountSDK({
         appName: "ETHSamba Demo",
+        appLogoUrl: "https://base.org/logo.png",
         appChainIds: [baseSepolia.id],
       });
 
-      // 1) Abre o fluxo de conexão do Base Account
+      // 2) Conectar Base Account
       const provider = sdk.getProvider();
-      // método padrão documentado para abrir o modal
       await provider.request({ method: "wallet_connect" });
 
-      // 2) Cria um WalletClient do viem sobre o provider EIP-1193
+      // 3) Endereço universal (conta principal do usuário)
       const wallet = createWalletClient({
         chain: baseSepolia,
         transport: custom(provider),
       });
-
-      // 3) Obtém o(s) endereço(s) conectado(s)
       const [account] = await wallet.getAddresses();
       if (!account) throw new Error("Nenhuma conta retornada pelo provider.");
-      setAddress(account as `0x${string}`);
+      const userAddr = account as `0x${string}`;
+      setUniversalAddress(userAddr);
+
+      // 4) Ver se já existe Sub Account para este domínio/app
+      let sub = await sdk.subAccount.get();
+
+      // 5) Se não existir, cria com o formato exigido pela sua versão (AccountCreate)
+      if (!sub) {
+        const createParam = {
+          type: "create" as const,
+          keys: [
+            {
+              type: "address" as const,
+              // usa o endereço universal como "publicKey" do tipo address
+              publicKey: userAddr,
+            },
+            // Alternativas (se quiser usar P-256 no futuro):
+            // { type: 'webcrypto-p256' as const, publicKey: '0x...' },
+            // { type: 'p256' as const, publicKey: '0x...' },
+          ],
+        };
+        sub = await sdk.subAccount.create(createParam);
+      }
+
+      setSubAddress(sub.address as `0x${string}`);
     } catch (e: any) {
-      setErr(e?.message ?? "Falha ao autenticar");
+      setErr(e?.message ?? "Falha ao autenticar/criar subaccount");
     } finally {
       setLoading(false);
     }
   };
 
-  // Busca saldo quando houver address (com polling leve)
+  // saldo da Sub Account
   useEffect(() => {
-    if (!address) return;
+    if (!subAddress) return;
     let stop = false;
     let timer: ReturnType<typeof setInterval> | null = null;
 
     const fetchBalance = async () => {
       try {
         setBalLoading(true);
-        const bal = await publicClient.getBalance({ address });
-        if (!stop) setBalance(bal);
-      } catch (e: any) {
-        // Mostra o erro de saldo na UI para depurar se necessário
-        console.error("Erro ao obter saldo:", e);
+        const bal = await publicClient.getBalance({ address: subAddress });
+        if (!stop) setSubBalance(bal);
+      } catch {
+        // opcional: console.error('Erro saldo subaccount:', e);
       } finally {
         if (!stop) setBalLoading(false);
       }
@@ -74,16 +96,15 @@ export default function Page() {
 
     fetchBalance();
     timer = setInterval(fetchBalance, 15_000);
-
     return () => {
       stop = true;
       if (timer) clearInterval(timer);
     };
-  }, [address]);
+  }, [subAddress]);
 
   return (
-    <main style={{ padding: 24, maxWidth: 680 }}>
-      <h1>Login</h1>
+    <main style={{ padding: 24, maxWidth: 760 }}>
+      <h1>Login + Sub Accounts (Base Sepolia)</h1>
 
       <div
         aria-busy={loading}
@@ -93,20 +114,28 @@ export default function Page() {
           pointerEvents: loading ? "none" : "auto",
         }}
       >
-        <SignInWithBaseButton colorScheme="light" onClick={signInWithBase} />
+        <SignInWithBaseButton colorScheme="light" onClick={connectAndEnsureSubAccount} />
       </div>
 
-      {address && (
+      {universalAddress && (
         <section style={{ marginTop: 16 }}>
           <p>
-            Conectado: <code>{address}</code>
+            Universal Account: <code>{universalAddress}</code>
+          </p>
+        </section>
+      )}
+
+      {subAddress && (
+        <section style={{ marginTop: 8 }}>
+          <p>
+            Sub Account: <code>{subAddress}</code>
           </p>
           <p>
-            Saldo (ETH, Base Sepolia):{" "}
-            {balLoading && balance === null
+            Saldo da Sub (ETH, Base Sepolia):{" "}
+            {balLoading && subBalance === null
               ? "carregando..."
-              : balance !== null
-                ? `${Number(formatEther(balance)).toFixed(6)} ETH`
+              : subBalance !== null
+                ? `${Number(formatEther(subBalance)).toFixed(6)} ETH`
                 : "—"}
           </p>
         </section>
