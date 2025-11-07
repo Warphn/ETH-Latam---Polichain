@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      body { font: 13px system-ui, sans-serif; padding: 12px; min-width: 280px; }
+      .ok { color: #0a7a0a } .bad { color: #b00020 }
+      .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace }
+      ul { margin: 6px 0 0 16px; padding: 0 }
+    </style>
+  </head>
+  <body>
+    <div><b>Aba é YouTube?</b> <span id="is-yt"></span></div>
+    <div><b>Canal:</b> <span id="channel">—</span></div>
+    <div><b>Inscrito:</b> <span id="subscribed">—</span></div>
+    <div><b>Tempo assistido:</b> <span id="watch-time">0s</span></div>
+    <div><b>Vídeo:</b> <span id="vid" class="mono">—</span></div>
+    <div><b>Vendo agora?</b> <span id="playing"></span></div>
+    <div><b>Like/Dislike:</b> <span id="ld">—</span></div>
+    <div style="margin-top:8px"><b>Interações recentes</b></div>
+    <ul id="recent"></ul>
+    <script src="popup.js"></script>
+  </body>
+</html>
