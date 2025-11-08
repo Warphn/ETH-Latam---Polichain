@@ -14,7 +14,7 @@ export async function GET() {
     miniapp: {
       version: "1",
       name: "Easy Tip",
-      homeUrl: "https://eth-latam-polichain-nextjs-8h1h6j8tr-victor-bertellis-projects.vercel.app",
+      homeUrl: "eth-latam-polichain-nextjs-lac.vercel.app",
       iconUrl: "https://eth-latam-polichain-nextjs-lac.vercel.app/logo.jpeg",
       splashImageUrl: "https://eth-latam-polichain-nextjs-lac.vercel.app/logo.jpeg",
       splashBackgroundColor: "#8115A7",
