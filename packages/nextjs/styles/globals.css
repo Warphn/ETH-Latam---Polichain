@@ -51,26 +51,31 @@
 @plugin "daisyui/theme" {
   name: "dark";
 
-  --color-primary: #8115A7;           /* Roxo principal do botão/card */
-  --color-primary-content: #FFFFFF;    /* Texto branco */
-  --color-secondary: #9C27B0;          /* Roxo um pouco mais claro (para hover) */
+  /* Cores principais */
+  --color-primary: #8115A7;
+  --color-primary-content: #FFFFFF;
+  --color-secondary: #B17CC4;
   --color-secondary-content: #FFFFFF;
-  --color-accent: #8115A7;             
+  --color-accent: #6C55A3;
   --color-accent-content: #FFFFFF;
-  --color-neutral: #E5E7EB;            /* Usado para divisores e fundos subtis */
-  --color-neutral-content: #212638;    /* Texto escuro (para texto que não está no card) */
-  
-  --color-base-100: #FFFFFF;           /* Fundo da página (Branco) */
-  --color-base-200: #F4F8FF;           /* Fundo da lista de cards (Seu azul claro) */
-  --color-base-300: #E5E7EB;           /* Bordas */
-  --color-base-content: #212638;       /* Texto principal (preto/escuro) */
-  
-  --color-info: #3ABFF8;
-  --color-success: #34eeb6;
-  --color-warning: #ffcf72;
-  --color-error: #ff8863;
 
+  /* Cores neutras (fundos, divisores) */
+  --color-neutral: #3D3D5C;
+  --color-neutral-content: #D1D5E8;
+
+  /* Fundos em camadas */
+  --color-base-100: #0D121E;   /* fundo da página */
+  --color-base-200: #191E32;   /* fundo de painéis ou listas */
+  --color-base-300: #222C46;   /* bordas e cartões */
+  --color-base-content: #F5F5F5;
+
+  /* Cores de status */
+  --color-info: #3ABFF8;
+  --color-success: #22C55E;
+  --color-warning: #FBBF24;
+  --color-error: #EF4444;
+
+  /* Raios e outras variáveis (mantidos) */
   --radius-field: 9999rem;
   --radius-box: 1rem;
   --tt-tailw: 6px;
-}
