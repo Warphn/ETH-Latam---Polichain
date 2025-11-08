@@ -13,8 +13,8 @@ export async function GET() {
     },
     miniapp: {
       version: "1",
-      name: "Example Mini App",
-      homeUrl: "https://ex.co",
+      name: "Easy Tip",
+      homeUrl: "https://eth-latam-polichain-nextjs-8h1h6j8tr-victor-bertellis-projects.vercel.app",
       iconUrl: "https://ex.co/i.png",
       splashImageUrl: "https://ex.co/l.png",
       splashBackgroundColor: "#000000",
