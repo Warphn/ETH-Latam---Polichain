@@ -1,80 +1,76 @@
-# 🏗 Scaffold-ETH 2
+# 💸 EASYTIP
 
-<h4 align="center">
-  <a href="https://docs.scaffoldeth.io">Documentation</a> |
-  <a href="https://scaffoldeth.io">Website</a>
-</h4>
+## 🧩 Problema Central  
+Criadores de conteúdo em plataformas como o YouTube enfrentam dificuldades para receber gorjetas de forma direta, automática e transparente.  
+As opções atuais (como “Super Chat”) cobram taxas elevadas e limitam a liberdade de pagamento, além de dificultar a integração com sistemas externos.  
 
-🧪 An open-source, up-to-date toolkit for building decentralized applications (dapps) on the Ethereum blockchain. It's designed to make it easier for developers to create and deploy smart contracts and build user interfaces that interact with those contracts.
+O **EASYTIP** resolve esse problema automatizando o envio de gorjetas para criadores de conteúdo a partir de dados coletados diretamente do YouTube — tudo integrado a uma carteira blockchain BASE e a um Mini App.
+O **EASYTIP** surge para resolver esse problema, permitindo o envio rápido e seguro de gorjetas digitais, sem intermediários e com total rastreabilidade.
 
-⚙️ Built using NextJS, RainbowKit, Hardhat, Wagmi, Viem, and Typescript.
+---
 
-- ✅ **Contract Hot Reload**: Your frontend auto-adapts to your smart contract as you edit it.
-- 🪝 **[Custom hooks](https://docs.scaffoldeth.io/hooks/)**: Collection of React hooks wrapper around [wagmi](https://wagmi.sh/) to simplify interactions with smart contracts with typescript autocompletion.
-- 🧱 [**Components**](https://docs.scaffoldeth.io/components/): Collection of common web3 components to quickly build your frontend.
-- 🔥 **Burner Wallet & Local Faucet**: Quickly test your application with a burner wallet and local faucet.
-- 🔐 **Integration with Wallet Providers**: Connect to different wallet providers and interact with the Ethereum network.
+## 🌐 Visão Geral  
+O **EASYTIP** é uma solução descentralizada que conecta **criadores de conteúdo** e **fãs** através de um ecossistema simples e transparente.  
+O sistema combina uma **extensão do YouTube** que coleta dados sobre vídeos e canais com um **Mini App**, onde o usuário pode configurar e enviar gorjetas automáticas para seus criadores favoritos.
 
-![Debug Contracts tab](https://github.com/scaffold-eth/scaffold-eth-2/assets/55535804/b237af0c-5027-4849-a5c1-2e31495cccb1)
+### ⚙️ Como funciona:
+1. 🧩 **Extensão do YouTube** coleta informações como nome do canal, tempo de visualização, status de inscrição,possui autenticação jwt..  
+2. 📤 Esses dados são enviados ao **Mini App EASYTIP**.  
+3. 💰 O Mini App permite configurar gorjetas automáticas via blockchain e também um sistema de autenticação de canais juntamente aos endereços de carteiras de usuários e criadores de conteúdo.  
+4. 🔗 As transações são registradas em um **smart contract**, garantindo transparência, rastreabilidade e possibilidade de lucro juntamente à pequenas taxas configuravéis.  
 
-## Requirements
+### Principais Funcionalidades:
+- 🔗 Envio de gorjetas em criptomoeda 
+- 💳 Integração com carteira digital da Base
+- 👤 Perfil de usuários e histórico de transações  
+- 🧾 Transparência total das gorjetas recebidas  
+- ⚙️ Automatização de gorjetas dependendo de parâmetros configuráveis 
 
-Before you begin, you need to install the following tools:
+---
 
-- [Node (>= v20.18.3)](https://nodejs.org/en/download/)
-- Yarn ([v1](https://classic.yarnpkg.com/en/docs/install/) or [v2+](https://yarnpkg.com/getting-started/install))
-- [Git](https://git-scm.com/downloads)
+## 💻 Tecnologias Usadas  
 
-## Quickstart
+| Categoria | Tecnologias |
+|------------|--------------|
+| **Linguagem Principal** | TypeScript |
+| **Frontend** | React |
+| **Framework** | Scaffold-ETH |
+| **Smart Contracts** | Solidity, Hardhat |
+| **Blockchain** | Base Network |
+| **Banco de Dados** | Prisma |
+| **Extensão / Integração** | Chrome Extension (YouTube API + Messaging) |
 
-To get started with Scaffold-ETH 2, follow the steps below:
+---
 
-1. Install dependencies if it was skipped in CLI:
+## 🧩 Passo a Passo de Inicialização
 
-```
-cd my-dapp-example
+Siga as instruções abaixo para configurar o projeto **EASYTIP** em sua máquina local.
+
+---
+
+### 🔧 1. Clonar o repositório
+
+```bash
+# Clone o repositório
+git clone https://github.com/Warphn/ETH-Latam---Polichain
+
+# Acesse a pasta do projeto
+cd packages/nextjs
+
+# Instale as dependências
 yarn install
-```
 
-2. Run a local network in the first terminal:
-
-```
-yarn chain
-```
-
-This command starts a local Ethereum network using Hardhat. The network runs on your local machine and can be used for testing and development. You can customize the network configuration in `packages/hardhat/hardhat.config.ts`.
-
-3. On a second terminal, deploy the test contract:
-
-```
-yarn deploy
-```
-
-This command deploys a test smart contract to the local network. The contract is located in `packages/hardhat/contracts` and can be modified to suit your needs. The `yarn deploy` command uses the deploy script located in `packages/hardhat/deploy` to deploy the contract to the network. You can also customize the deploy script.
-
-4. On a third terminal, start your NextJS app:
-
-```
-yarn start
-```
-
-Visit your app on: `http://localhost:3000`. You can interact with your smart contract using the `Debug Contracts` page. You can tweak the app config in `packages/nextjs/scaffold.config.ts`.
-
-Run smart contract test with `yarn hardhat:test`
-
-- Edit your smart contracts in `packages/hardhat/contracts`
-- Edit your frontend homepage at `packages/nextjs/app/page.tsx`. For guidance on [routing](https://nextjs.org/docs/app/building-your-application/routing/defining-routes) and configuring [pages/layouts](https://nextjs.org/docs/app/building-your-application/routing/pages-and-layouts) checkout the Next.js documentation.
-- Edit your deployment scripts in `packages/hardhat/deploy`
+#Rode a aplicação
+yarn run dev
 
 
-## Documentation
+## 🔗 Links  
 
-Visit our [docs](https://docs.scaffoldeth.io) to learn how to start building with Scaffold-ETH 2.
+Aqui estão os principais links relacionados ao projeto **EASYTIP**:
 
-To know more about its features, check out our [website](https://scaffoldeth.io).
+- 🌐 **Deploy (Mini App)** — Versão em produção do Mini App 
+  👉 https://farcaster.xyz/miniapps/42PiG3SvdsCu/easy-tip
 
-## Contributing to Scaffold-ETH 2
 
-We welcome contributions to Scaffold-ETH 2!
-
-Please see [CONTRIBUTING.MD](https://github.com/scaffold-eth/scaffold-eth-2/blob/main/CONTRIBUTING.md) for more information and guidelines for contributing to Scaffold-ETH 2.
+- 🧱 **Address smart contract**   
+  👉 0x29f9B8425290978dAf891D341162AEeb1D1cFC97
