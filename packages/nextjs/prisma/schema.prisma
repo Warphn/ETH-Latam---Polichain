@@ -16,6 +16,7 @@ model User {
   Preference_Preference_userIdToUser           Preference[]      @relation("Preference_userIdToUser")
   Preference_Preference_userPreferenceIdToUser Preference[]      @relation("Preference_userPreferenceIdToUser")
   permissions                                  SpendPermission[]
+  tips                                         Tip[]
 
   @@index([baseAccountAddress])
   @@index([subAccountAddress])
@@ -68,4 +69,26 @@ model Preference {
   @@unique([userId, userPreferenceId])
   @@index([userId])
   @@index([userPreferenceId])
+}
+
+model Tip {
+  id             String    @id @default(cuid())
+  createdAt      DateTime  @default(now())
+  userId         String
+  channelId      String
+  channelHandle  String?
+  channelName    String?
+  videoId        String
+  watchSeconds   Int
+  like           Boolean?
+  dislike        Boolean?
+  subscribed     Boolean?
+  payload        Json?     // guarda o corpo original para auditoria / debugging
+
+  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, channelId, videoId])  // ← idempotência: um tip por user+canal+vídeo
+  @@index([userId])
+  @@index([channelId])
+  @@index([videoId])
 }

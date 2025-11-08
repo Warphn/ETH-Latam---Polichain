@@ -3,22 +3,21 @@
   <head>
     <meta charset="utf-8" />
     <style>
-      body { font: 13px system-ui, sans-serif; padding: 12px; min-width: 280px; }
-      .ok { color: #0a7a0a } .bad { color: #b00020 }
-      .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace }
-      ul { margin: 6px 0 0 16px; padding: 0 }
+      body { font: 13px system-ui, sans-serif; padding: 12px; min-width: 320px; }
+      .mono { font-family: ui-monospace, Menlo, Consolas, monospace }
+      .row { display:flex; gap: 8px; align-items:center; margin: 8px 0; }
+      button { padding: 8px 10px; border-radius: 8px; border: 1px solid #e2e8f0; background: #f8fafc; cursor:pointer; }
     </style>
   </head>
   <body>
-    <div><b>Aba é YouTube?</b> <span id="is-yt"></span></div>
-    <div><b>Canal:</b> <span id="channel">—</span></div>
-    <div><b>Inscrito:</b> <span id="subscribed">—</span></div>
-    <div><b>Tempo assistido:</b> <span id="watch-time">0s</span></div>
-    <div><b>Vídeo:</b> <span id="vid" class="mono">—</span></div>
-    <div><b>Vendo agora?</b> <span id="playing"></span></div>
-    <div><b>Like/Dislike:</b> <span id="ld">—</span></div>
-    <div style="margin-top:8px"><b>Interações recentes</b></div>
-    <ul id="recent"></ul>
+    <h3>ETHSamba Presence</h3>
+    <div class="row">
+      <button id="btn-login">Login com Base</button>
+      <button id="btn-logout">Logout</button>
+    </div>
+    <div><b>Status:</b> <span id="status">Desconectado</span></div>
+    <div><b>Conta:</b> <span id="address" class="mono">—</span></div>
+    <div style="margin-top:10px; opacity:0.7">Envio automático de métricas quando YouTube + condições.</div>
     <script src="popup.js"></script>
   </body>
 </html>

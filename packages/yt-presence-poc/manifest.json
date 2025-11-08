@@ -4,9 +4,21 @@
   "version": "0.1.0",
   "action": { "default_popup": "popup.html" },
   
-  "permissions": ["activeTab", "scripting"],
-  "host_permissions": ["https://www.youtube.com/*"],
+  "permissions": ["activeTab", "scripting", "storage", "tabs"],
+  "host_permissions": [
+    "*://*.youtube.com/*",
+    "http://localhost:3000/*"
+  ],
   "background": { "service_worker": "sw.js" },
+
+  "externally_connectable": {
+    "matches": ["http://localhost:3000/*"]
+  },
+
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self'; connect-src 'self' http://localhost:3000"
+  },
+
   "content_scripts": [
     {
       "matches": ["*://*.youtube.com/*"],
