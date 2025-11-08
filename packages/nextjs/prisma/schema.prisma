@@ -8,18 +8,34 @@ datasource db {
 }
 
 model User {
-  id                                           String            @id @default(cuid())
-  createdAt                                    DateTime          @default(now())
-  baseAccountAddress                           String            @unique
-  subAccountAddress                            String?           @unique
-  youtubeId                                    String?           @unique
-  Preference_Preference_userIdToUser           Preference[]      @relation("Preference_userIdToUser")
-  Preference_Preference_userPreferenceIdToUser Preference[]      @relation("Preference_userPreferenceIdToUser")
-  permissions                                  SpendPermission[]
-  tips                                         Tip[]
+  id                 String           @id @default(cuid())
+  createdAt          DateTime         @default(now())
+  baseAccountAddress String           @unique
+  subAccountAddress  String?          @unique
+  youtubeId          String?          @unique
+
+  // relações “amigáveis” entre usuários (quem inicia vs. quem é alvo)
+  initiatedPreferences Preference[]   @relation("InitiatorConnections")
+  targetedPreferences  Preference[]   @relation("TargetConnections")
+
+  permissions        SpendPermission[]
+  tips               Tip[]
 
   @@index([baseAccountAddress])
   @@index([subAccountAddress])
+}
+
+model Preference {
+  id               String  @id @default(cuid())
+  userId           String
+  userPreferenceId String
+
+  user           User @relation("InitiatorConnections", fields: [userId], references: [id])
+  userPreference User @relation("TargetConnections", fields: [userPreferenceId], references: [id])
+
+  @@unique([userId, userPreferenceId])
+  @@index([userId])
+  @@index([userPreferenceId])
 }
 
 model SpendPermission {
@@ -30,7 +46,7 @@ model SpendPermission {
   ownerAccount   String
   spender        String
   token          String
-  allowance      Decimal   @db.Decimal(78, 0)
+  allowance      Decimal   @db.Decimal(78, 0) // valores grandes (wei)
   periodSeconds  Int
   startTs        BigInt
   endTs          BigInt
@@ -38,6 +54,7 @@ model SpendPermission {
   extraData      Bytes?
   signature      Bytes
   chainId        Int
+
   user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
@@ -59,35 +76,23 @@ model ServerWallet {
   @@index([chainId])
 }
 
-model Preference {
-  id                                     String @id
-  userId                                 String
-  userPreferenceId                       String
-  User_Preference_userIdToUser           User   @relation("Preference_userIdToUser", fields: [userId], references: [id])
-  User_Preference_userPreferenceIdToUser User   @relation("Preference_userPreferenceIdToUser", fields: [userPreferenceId], references: [id])
-
-  @@unique([userId, userPreferenceId])
-  @@index([userId])
-  @@index([userPreferenceId])
-}
-
 model Tip {
-  id             String    @id @default(cuid())
-  createdAt      DateTime  @default(now())
-  userId         String
-  channelId      String
-  channelHandle  String?
-  channelName    String?
-  videoId        String
-  watchSeconds   Int
-  like           Boolean?
-  dislike        Boolean?
-  subscribed     Boolean?
-  payload        Json?     // guarda o corpo original para auditoria / debugging
+  id            String   @id @default(cuid())
+  createdAt     DateTime @default(now())
+  userId        String
+  channelId     String
+  channelHandle String?
+  channelName   String?
+  videoId       String
+  watchSeconds  Int
+  like          Boolean?
+  dislike       Boolean?
+  subscribed    Boolean?
+  payload       Json?
 
-  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@unique([userId, channelId, videoId])  // ← idempotência: um tip por user+canal+vídeo
+  @@unique([userId, channelId, videoId])
   @@index([userId])
   @@index([channelId])
   @@index([videoId])

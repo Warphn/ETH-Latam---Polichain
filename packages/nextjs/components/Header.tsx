@@ -3,11 +3,12 @@
 import React, { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { ConnectBaseButton } from "./ConnectBaseButton";
 //import { usePathname } from "next/navigation";
 import { hardhat } from "viem/chains";
 import { Bars3Icon } from "@heroicons/react/24/outline";
 import "~~/components/help.css";
-import { FaucetButton, RainbowKitCustomConnectButton } from "~~/components/scaffold-eth";
+import { FaucetButton } from "~~/components/scaffold-eth";
 import { useOutsideClick, useTargetNetwork } from "~~/hooks/scaffold-eth";
 
 type HeaderMenuLink = {
@@ -19,11 +20,15 @@ type HeaderMenuLink = {
 export const menuLinks: HeaderMenuLink[] = [
   {
     label: "Canais",
-    href: "/profile",
+    href: "/",
   },
   {
     label: "Adicionar",
     href: "/add",
+  },
+  {
+    label: "Cadastro",
+    href: "/register",
   },
 ];
 
@@ -92,7 +97,7 @@ export const Header = () => {
         </ul>
       </div>
       <div className="navbar-end grow mr-4">
-        <RainbowKitCustomConnectButton />
+        <ConnectBaseButton />
         {isLocalNetwork && <FaucetButton />}
       </div>
     </div>

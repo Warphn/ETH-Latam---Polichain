@@ -1323,6 +1323,42 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@farcaster/miniapp-core@npm:0.4.1":
+  version: 0.4.1
+  resolution: "@farcaster/miniapp-core@npm:0.4.1"
+  dependencies:
+    "@solana/web3.js": ^1.98.2
+    ox: ^0.4.4
+    zod: ^3.25.0
+  checksum: 1a8f800017f387b81346d397251edfd7e7dca8e3c3e3af7e9d72fe23438b4bea4a7c4ffd594dbb768469d229b037415ce1ee648e810e17c5ab904cb6568fdc4f
+  languageName: node
+  linkType: hard
+
+"@farcaster/miniapp-sdk@npm:^0.2.1":
+  version: 0.2.1
+  resolution: "@farcaster/miniapp-sdk@npm:0.2.1"
+  dependencies:
+    "@farcaster/miniapp-core": 0.4.1
+    "@farcaster/quick-auth": ^0.0.6
+    comlink: ^4.4.2
+    eventemitter3: ^5.0.1
+    ox: ^0.4.4
+  checksum: db3883863b031d4c0f461a7f383694df2d78ffa60933b19232c2584382b69273b088254fe1128006ea9c0e2f06619d92c27d9592e54e18c19d00c607b73e3043
+  languageName: node
+  linkType: hard
+
+"@farcaster/quick-auth@npm:^0.0.6":
+  version: 0.0.6
+  resolution: "@farcaster/quick-auth@npm:0.0.6"
+  dependencies:
+    jose: ^5.2.3
+    zod: ^3.25.1
+  peerDependencies:
+    typescript: 5.8.3
+  checksum: ccfd864ee275b6223e50c9cb52ab9095bcf35e565b2f4ddacb328b4cbcd9fb9261c70bda18a5f1c6ef37deee8e32c413d74ba89f76558a6c641fc7bac58ba6b2
+  languageName: node
+  linkType: hard
+
 "@fastify/busboy@npm:^2.0.0":
   version: 2.1.1
   resolution: "@fastify/busboy@npm:2.1.1"
@@ -4566,7 +4602,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@solana/web3.js@npm:^1.98.1":
+"@solana/web3.js@npm:^1.98.1, @solana/web3.js@npm:^1.98.2":
   version: 1.98.4
   resolution: "@solana/web3.js@npm:1.98.4"
   dependencies:
@@ -8052,6 +8088,13 @@ __metadata:
   dependencies:
     delayed-stream: ~1.0.0
   checksum: 49fa4aeb4916567e33ea81d088f6584749fc90c7abec76fd516bf1c5aa5c79f3584b5ba3de6b86d26ddd64bae5329c4c7479343250cfe71c75bb366eae53bb7c
+  languageName: node
+  linkType: hard
+
+"comlink@npm:^4.4.2":
+  version: 4.4.2
+  resolution: "comlink@npm:4.4.2"
+  checksum: 35313f26fdd78c202be21be49a7607f57e9e91963399b524676742ee0cf7db589be500d923ed0809b53f37996461186fb345bf867d93236be22bfae3cb7bd07e
   languageName: node
   linkType: hard
 
@@ -12374,6 +12417,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"jose@npm:^5.2.3":
+  version: 5.10.0
+  resolution: "jose@npm:5.10.0"
+  checksum: e80965ef3ab47baafac3517f53fa9c74b948b57690de524f51320c314cd545ef51ec7b18761605d58fb5965b7c5e12b2bb6ddae87a6ccf55e3f4ad077347d8d7
+  languageName: node
+  linkType: hard
+
 "jose@npm:^6.0.8":
   version: 6.1.0
   resolution: "jose@npm:6.1.0"
@@ -14660,6 +14710,26 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ox@npm:^0.4.4":
+  version: 0.4.4
+  resolution: "ox@npm:0.4.4"
+  dependencies:
+    "@adraffy/ens-normalize": ^1.10.1
+    "@noble/curves": ^1.6.0
+    "@noble/hashes": ^1.5.0
+    "@scure/bip32": ^1.5.0
+    "@scure/bip39": ^1.4.0
+    abitype: ^1.0.6
+    eventemitter3: 5.0.1
+  peerDependencies:
+    typescript: ">=5.4.0"
+  peerDependenciesMeta:
+    typescript:
+      optional: true
+  checksum: 412f443924ca0400142b287afb97b688cc5fadab1f8ef3f1e586a970c696a39dfaf335444efc5fa85a76d322d35d7023ff5e0c8667cb9ba4a297244ebfacf23e
+  languageName: node
+  linkType: hard
+
 "p-cancelable@npm:^4.0.1":
   version: 4.0.1
   resolution: "p-cancelable@npm:4.0.1"
@@ -16250,6 +16320,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "se-2@workspace:."
   dependencies:
+    "@farcaster/miniapp-sdk": ^0.2.1
     husky: ~9.1.6
     lint-staged: ~13.2.2
   languageName: unknown
@@ -19117,7 +19188,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"zod@npm:^3.22.4, zod@npm:^3.24.4":
+"zod@npm:^3.22.4, zod@npm:^3.24.4, zod@npm:^3.25.0, zod@npm:^3.25.1":
   version: 3.25.76
   resolution: "zod@npm:3.25.76"
   checksum: c9a403a62b329188a5f6bd24d5d935d2bba345f7ab8151d1baa1505b5da9f227fb139354b043711490c798e91f3df75991395e40142e6510a4b16409f302b849
