@@ -17,7 +17,7 @@ model User {
   // relações “amigáveis” entre usuários (quem inicia vs. quem é alvo)
   initiatedPreferences Preference[]   @relation("InitiatorConnections")
   targetedPreferences  Preference[]   @relation("TargetConnections")
-
+ youtubeVerifications YoutubeVerification[]
   permissions        SpendPermission[]
   tips               Tip[]
 
@@ -96,4 +96,36 @@ model Tip {
   @@index([userId])
   @@index([channelId])
   @@index([videoId])
+}
+
+
+model YoutubeVerification {
+  id           String   @id @default(cuid())
+  createdAt    DateTime @default(now())
+  consumedAt   DateTime?
+
+  userId       String
+  // opcional: se você já souber o canal alvo, preencha; senão deixe null
+  intendedChannelId String?
+
+  // código único exibido ao usuário para colar na descrição do canal
+  code         String   @unique
+
+  // status simples
+  status       VerificationStatus @default(PENDING)
+
+  // quem confirmou (canal efetivo verificado)
+  verifiedChannelId String?
+  verifiedChannelName String?
+
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([status])
+}
+
+enum VerificationStatus {
+  PENDING
+  VERIFIED
+  EXPIRED
 }

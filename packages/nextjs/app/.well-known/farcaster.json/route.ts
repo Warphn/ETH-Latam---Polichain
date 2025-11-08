@@ -20,7 +20,7 @@ export async function GET() {
       splashBackgroundColor: "#8115A7",
       webhookUrl: "https://ex.co/api/webhook",
       subtitle: "Easy way to tip",
-      description: "A easy way to contribute with your favorites creators",
+      description: "An easy way to contribute with your favorites creators",
       screenshotUrls: [
         "https://eth-latam-polichain-nextjs-lac.vercel.app/Print1.png",
         "https://eth-latam-polichain-nextjs-lac.vercel.app/Print2.png",
