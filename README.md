@@ -46,9 +46,7 @@ O sistema combina uma **extensão do YouTube** que coleta dados sobre vídeos e 
 
 Siga as instruções abaixo para configurar o projeto **EASYTIP** em sua máquina local.
 
----
 
-### 🔧 1. Clonar o repositório
 
 ```bash
 # Clone o repositório
@@ -63,6 +61,10 @@ yarn install
 #Rode a aplicação
 yarn run dev
 
+
+## 🔗 Links  
+
+---
 
 ## 🔗 Links  
 
