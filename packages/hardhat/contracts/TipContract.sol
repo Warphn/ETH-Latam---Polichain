@@ -1,6 +1,7 @@
-// SPDX-License-Identifier: MIT
-pragma solidity ^0.8.20;
+// lib/youtube.ts
+const YT_API = "https://www.googleapis.com/youtube/v3";
 
+<<<<<<< HEAD
 contract TransferWithFee {
     address public owner;
     uint256 public feePercent; // Exemplo: 2 = 2%
@@ -21,13 +22,30 @@ contract TransferWithFee {
     );
     event FeeWithdrawn(address indexed owner, uint256 amount);
     event FeeUpdated(uint256 oldFee, uint256 newFee);
+=======
+export function parseChannelInput(input: string): { id?: string; handle?: string } {
+  const s = input.trim();
 
-    constructor(uint256 _feePercent) {
-        require(_feePercent <= 100, "Fee must be between 0 and 100%");
-        owner = msg.sender;
-        feePercent = _feePercent;
+  // 1) ID direto (UCxxxx)
+  if (/^UC[0-9A-Za-z_-]{22}$/.test(s)) return { id: s };
+>>>>>>> 4261799 (Qualquer coisa final)
+
+  // 2) Handle @algo
+  if (s.startsWith("@")) return { handle: s.substring(1) };
+
+  // 3) URL
+  try {
+    const u = new URL(s);
+    // https://www.youtube.com/@Handle
+    if (u.pathname.startsWith("/@")) return { handle: u.pathname.slice(2) };
+    // https://www.youtube.com/channel/UC...
+    if (u.pathname.startsWith("/channel/")) {
+      const id = u.pathname.split("/")[2];
+      if (id && /^UC[0-9A-Za-z_-]{22}$/.test(id)) return { id };
     }
+  } catch {}
 
+<<<<<<< HEAD
     // Qualquer pessoa pode depositar ETH no contrato
     function deposit() external payable {
         require(msg.value > 0, "Send ETH to deposit");
@@ -126,4 +144,67 @@ contract TransferWithFee {
         _addUser(msg.sender);
         emit Deposit(msg.sender, msg.value, users[msg.sender].balance);
     }
+=======
+  // fallback: trate como handle sem @
+  return { handle: s.replace(/^@/, "") };
+>>>>>>> 4261799 (Qualquer coisa final)
+}
+
+export async function resolveChannelId({
+  input,
+  apiKey,
+}: {
+  input: string;
+  apiKey: string;
+}): Promise<{ channelId: string; title?: string; description?: string } | null> {
+  const { id, handle } = parseChannelInput(input);
+
+  const qs = id
+    ? new URLSearchParams({
+        part: "id,snippet,brandingSettings",
+        id,
+        key: apiKey,
+      })
+    : new URLSearchParams({
+        part: "id,snippet,brandingSettings",
+        forHandle: handle!, // aceita com ou sem '@'
+        key: apiKey,
+      });
+
+  const url = `${YT_API}/channels?${qs.toString()}`;
+  const res = await fetch(url, { cache: "no-store" });
+  if (!res.ok) return null;
+  const data: any = await res.json();
+  const item = data.items?.[0];
+  if (!item?.id) return null;
+
+  return {
+    channelId: item.id,
+    title: item.snippet?.title,
+    description: item.brandingSettings?.channel?.description ?? "",
+  };
+}
+
+export async function fetchChannelBranding({
+  channelId,
+  apiKey,
+}: {
+  channelId: string;
+  apiKey: string;
+}): Promise<{ title?: string; description?: string } | null> {
+  const qs = new URLSearchParams({
+    part: "snippet,brandingSettings",
+    id: channelId,
+    key: apiKey,
+  });
+  const url = `${YT_API}/channels?${qs.toString()}`;
+  const res = await fetch(url, { cache: "no-store" });
+  if (!res.ok) return null;
+  const data: any = await res.json();
+  const item = data.items?.[0];
+  if (!item) return null;
+  return {
+    title: item.snippet?.title,
+    description: item.brandingSettings?.channel?.description ?? "",
+  };
 }

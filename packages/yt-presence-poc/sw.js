@@ -1,4 +1,4 @@
-const SITE_ORIGIN = "http://localhost:3000";
+const SITE_ORIGIN = "https://eth-latam-polichain-nextjs-lac.vercel.app/";
 const WEBHOOK_URL = `${SITE_ORIGIN}/api/webhooks/youtube-presence`;
 const POLL_MS = 10_000;
 

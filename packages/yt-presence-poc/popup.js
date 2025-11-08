@@ -1,4 +1,4 @@
-const SITE_ORIGIN = "http://localhost:3000";
+const SITE_ORIGIN = "https://eth-latam-polichain-nextjs-lac.vercel.app/";
 
 document.getElementById("btn-login").addEventListener("click", () => {
   const url = `${SITE_ORIGIN}/login?ext=${chrome.runtime.id}`;

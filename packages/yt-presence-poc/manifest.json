@@ -7,16 +7,16 @@
   "permissions": ["activeTab", "scripting", "storage", "tabs"],
   "host_permissions": [
     "*://*.youtube.com/*",
-    "http://localhost:3000/*"
+    "https://eth-latam-polichain-nextjs-lac.vercel.app/*"
   ],
   "background": { "service_worker": "sw.js" },
 
   "externally_connectable": {
-    "matches": ["http://localhost:3000/*"]
+    "matches": ["https://eth-latam-polichain-nextjs-lac.vercel.app/*"]
   },
 
   "content_security_policy": {
-    "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self'; connect-src 'self' http://localhost:3000"
+    "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self'; connect-src 'self' https://eth-latam-polichain-nextjs-lac.vercel.app/"
   },
 
   "content_scripts": [
