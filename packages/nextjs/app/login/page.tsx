@@ -1,15 +1,16 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { Suspense, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { SignInWithBaseButton } from "@base-org/account-ui/react";
 import { createWalletClient, custom } from "viem";
 import { baseSepolia } from "viem/chains";
 
-export default function LoginPage() {
+function LoginPageContent() {
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState<string | null>(null);
 
+  // useSearchParams precisa estar dentro de um suspense boundary
   const params = useSearchParams();
   const extId = useMemo(() => params.get("ext") || "", [params]);
   const siteOrigin = process.env.NEXT_PUBLIC_SITE_ORIGIN!;
@@ -30,17 +31,17 @@ export default function LoginPage() {
       const provider = sdk.getProvider();
       await provider.request({ method: "wallet_connect" });
 
-      // 2) address
+      // 2) recupera endereço
       const wallet = createWalletClient({ chain: baseSepolia, transport: custom(provider) });
       const [addr] = await wallet.getAddresses();
       if (!addr) throw new Error("Sem endereço.");
 
-      // 3) nonce (uma única vez)
+      // 3) pega nonce
       const nonceRes = await fetch("/api/auth/nonce", { method: "GET", cache: "no-store", credentials: "include" });
       if (!nonceRes.ok) throw new Error("Falha ao obter nonce");
       const { nonce } = await nonceRes.json();
 
-      // 4) mensagem SIWE-like (texto SIMPLES; sem \r)
+      // 4) monta mensagem SIWE-like
       const statement = "Sign in with Base (ETHSamba Demo)";
       const msg = [
         `${location.host} wants you to sign in with your Ethereum account:`,
@@ -54,10 +55,10 @@ export default function LoginPage() {
         `Issued At: ${new Date().toISOString()}`,
       ].join("\n");
 
-      // 5) assina (personal_sign)
+      // 5) assina
       const signature = await provider.request({ method: "personal_sign", params: [msg, addr] });
 
-      // 6) verifica (manda O MESMO nonce)
+      // 6) verifica assinatura
       const verifyRes = await fetch("/api/auth/verify", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -66,9 +67,7 @@ export default function LoginPage() {
       });
 
       const payload = await verifyRes.json().catch(() => null);
-
       if (!verifyRes.ok) {
-        // Mostra erro + detalhe para debug
         throw new Error(
           `Falha na verificação: ${payload?.error || verifyRes.status}${payload?.detail ? ` — ${payload.detail}` : ""}`,
         );
@@ -76,7 +75,7 @@ export default function LoginPage() {
 
       const { token } = payload;
 
-      // 7) devolve pra extensão
+      // 7) envia token para a extensão (se houver extId)
       if (extId) {
         // @ts-ignore
         chrome.runtime?.sendMessage?.(extId, { type: "BASE_LOGIN_DONE", address: addr, token }, () => {
@@ -99,5 +98,14 @@ export default function LoginPage() {
       </div>
       {err && <p style={{ color: "crimson", marginTop: 12, whiteSpace: "pre-wrap" }}>{err}</p>}
     </main>
+  );
+}
+
+// Componente exportado: envolve o filho em <Suspense>
+export default function LoginPage() {
+  return (
+    <Suspense fallback={null}>
+      <LoginPageContent />
+    </Suspense>
   );
 }
