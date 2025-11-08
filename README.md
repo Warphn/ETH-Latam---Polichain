@@ -53,8 +53,23 @@ git clone https://github.com/Warphn/ETH-Latam---Polichain
 # Acesse a pasta do frontend
 cd packages/nextjs
 
+
+
 # Instale as dependências
 yarn install
 
 # Rode a aplicação localmente
 yarn run dev
+
+
+
+## 🔗 Links  
+
+Aqui estão os principais links relacionados ao projeto **EASYTIP**:
+
+- 🌐 **Deploy (Mini App)** — Versão em produção do Mini App  
+  👉 [https://farcaster.xyz/miniapps/42PiG3SvdsCu/easy-tip](https://farcaster.xyz/miniapps/42PiG3SvdsCu/easy-tip)
+
+- 🧱 **Smart Contract Address**  
+  👉 `0x29f9B8425290978dAf891D341162AEeb1D1cFC97`
+
