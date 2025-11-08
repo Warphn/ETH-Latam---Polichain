@@ -30,6 +30,7 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
+
 const ScaffoldEthApp = ({ children }: { children: React.ReactNode }) => {
   return (
     <html suppressHydrationWarning className={``}>
