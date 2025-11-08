@@ -9,7 +9,7 @@ export async function GET() {
       signature: "",
     },
     baseBuilder: {
-      ownerAddress: "0x", // endereço da sua Base Account
+      ownerAddress: "0x80c0d879B8f8ad08fa6A5fc89D56c4d1B641d929", // endereço da sua Base Account
     },
     miniapp: {
       version: "1",
